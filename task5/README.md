@@ -44,7 +44,3 @@
 ## Here we see the only 5 job can run in CentOS node.
 ![image](https://github.com/Kiran-dehlikar/jenkins/assets/104997588/ff7eed2c-3322-494d-861c-5db404a9269f)
 
-## Authors
-
-- [Kiran Dehlikar](https://github.com/Kiran-dehlikar)
-
