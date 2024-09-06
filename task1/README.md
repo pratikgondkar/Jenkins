@@ -149,6 +149,3 @@ Good to do:
 ### Output 
 ![image](https://github.com/Kiran-dehlikar/test/assets/104997588/6b928147-f171-4bcd-80da-2bb34f19d617)
 
-## Authors
-
-- [Kiran Dehlikar](https://github.com/Kiran-dehlikar)
