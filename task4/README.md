@@ -104,7 +104,3 @@
 
 ## You will see the Pipeline overview during running time with the help of blue ocean plugin.
 ![Screenshot from 2024-01-23 19-59-17](https://github.com/Kiran-dehlikar/test/assets/104997588/7d11b3f8-03a1-4c12-9c7e-3d6da5039662)
-
-## Authors
-
-- [Kiran Dehlikar](https://github.com/Kiran-dehlikar)
