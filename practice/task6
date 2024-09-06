@@ -1,0 +1,20 @@
+Repo : https://github.com/kiran-opstree/shared-lib-jenkin.git
+Task: Shared Library
+Create a shared library using Vars dir only.
+With the shared library you should be able to perform below task.
+Clone https://github.com/opstree/spring3hibernate.git
+CI checks (e.g. credential scanning, unit testing. dependency check, code coverage).
+Now Also Perform this task using src dir.
+
+repo
+- vars
+- clone.groovy
+- creds scanning.groovy
+- test.groovy
+- code coverage.groovy
+- dependency check.groovy
+- checkstyle.groovy
+- post.groovy
+
+# Answer
+

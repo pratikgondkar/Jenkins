@@ -1,0 +1,40 @@
+Slack Notification Plugin in Jenkins
+
+What is Slack Notification Plugin?
+Jenkins Slack notifications plugin is commonly used to send notifications to Slack channels based on the status of builds or other events.
+
+It provides real-time updates on build results, failures, or other important information on slack channel.
+
+
+Steps to Install it ?
+From the Jenkins homepage navigate to Manage Jenkins
+
+Navigate to Plugins,
+
+Change the tab to Available Plugins,
+
+Search for slack,
+
+Check the box next to install.
+
+
+Steps to configure & Integrate it with slack ?
+Get a Slack account: https://slack.com/
+
+Configure the Jenkins integration: https://my.slack.com/services/new/jenkins-ci
+
+Go to slack workspace select add apps in apps tab and click on apps directory 
+
+Search for jenkins-ci then select add to slack
+
+It will generate "Team subdomain" and "Integration token credential ID" save it.
+
+Go to the jenkins job -> configure -> post build action -> slack notification -> Advanced.
+
+Put "Team subdomain in workspace" and "Integration token credential ID in credential"
+
+To set up the above credential:   Dashboard > Manage Jenkins > Credentials > system > Global Credentials > kind (select secret text then in secret put Integration token credential ID) > create.
+
+
+Reference:
+https://plugins.jenkins.io/slack/ 

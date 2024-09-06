@@ -1,0 +1,56 @@
+pipeline{
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven3"  
+    }
+    stages{
+        stage('Cloning Repo') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'batch24', url: 'https://github.com/OT-MICROSERVICES/salary-api.git'
+            }
+        }
+        stage('Clean') {
+            steps {
+                sh "mvn clean"
+                
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS') {
+                    sh 'sudo mvn test'
+                }
+
+            }
+        }
+        stage('Code Coverage') {
+            steps {
+                sh "mvn cobertura:cobertura"
+            }
+        }
+        stage('Dependency Check') {
+            steps {
+                sh "mvn dependency-check:check"
+            }
+        }
+        stage('Cred Scan') {
+            steps {
+                sh "gitleaks detect -v"
+            }
+        }
+    }
+    // post{
+        // always{
+            // echo "========always========"
+        // }
+        // success{
+            // echo "========pipeline executed successfully ========"
+        // }
+        // failure{
+            // echo "========pipeline execution failed========"
+        // }
+    // }
+}

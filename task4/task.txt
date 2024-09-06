@@ -1,0 +1,92 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+               checkout scmGit(branches: [[name: '*/batch24']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_token', url: 'https://github.com/OT-MICROSERVICES/salary-api']])
+        }
+    }
+
+        stage('Code Stability Analysis') {
+            steps {
+                  sh 'mvn clean compile'  
+            }
+        }
+
+        stage('Code Quality Analysis') {
+            steps {
+    
+                  sh 'mvn checkstyle:checkstyle'  
+            }
+        }
+
+        stage('Code Coverage Analysis') {
+            steps {
+                script {
+                def testExitCode = sh(script: 'mvn clean cobertura:cobertura', returnStatus: true)
+            }
+        }
+    }
+        stage('Cred Scanning') {
+            steps {
+                script {
+                def testExitCode = sh(script: 'gitleaks detect -v', returnStatus: true)
+            }
+        }
+    }
+        stage('Generate Visual Reports') {
+            steps {
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Lab_Scripted_pipeline', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'CI checks', useWrapperFileDirectly: true])
+            }
+        }
+        // stage('Generate Artifacts') {
+        //     steps {
+        //         catchError(buildResult: 'SUCCESS') {
+        //             script {
+        //                 // Run Maven clean and package, skipping tests
+        //                 sh 'sudo mvn clean package -DskipTests -Dmaven.clean.skip=true'
+
+        //                 // Archive artifacts
+        //                 archiveArtifacts 'target/*.jar'
+        //             }
+        //         }
+        //     }
+        // }
+    }
+        post {
+            always {
+            
+              success {
+                    script {
+                    junit allowEmptyResults: true, keepProperties: true, skipMarkingBuildUnstable: true, skipOldReports: true, skipPublishingChecks: true, testResults: '**/target/surefire-reports/*.xml'
+                    archiveArtifacts artifacts: '**target/*.jar' }
+                  
+                  script {
+                // Send a Slack notification
+                    slackSend (
+                    channel: '#jenkins-tasks', 
+                    color: 'good',            
+                    message: "Job '${env.JOB_NAME}' '${env.BUILD_NUMBER}' has succeeded!",
+                    teamDomain: 'OT-NinjaBatch24', 
+                    tokenCredentialId: 'e30e415c-fc7c-4942-8edd-21794922725e' 
+                )
+                 
+            }
+          
+        }
+        failure {
+            script {
+                // Send a Slack notification on failure
+                slackSend (
+                    channel: '#jenkins-tasks', 
+                    color: 'danger',          
+                    message: "Job '${env.JOB_NAME}' '${env.BUILD_NUMBER}' has failed!",
+                    teamDomain: 'OT-NinjaBatch24', 
+                    tokenCredentialId: 'NP9vkl8COcggzJGg0qEHdZrO' 
+                )
+            }
+        }
+    }
+            } 
+}

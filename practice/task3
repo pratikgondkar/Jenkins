@@ -1,0 +1,64 @@
+What you will do:
+In this lab we will create a Jenkins Declarative Pipeline exploring basic elements of pipeline:
+# Create a Jenkins pipeline that will print Hello World
+# Add a parameter in Jenkins Pipeline that will take a name and print Hello <name>
+ Add a stage to print the code of the name provided if the code is present in secret file available in credential
+# Add an option to take user input while running the pipeline if we want to fail the pipeline
+# Add a stage to print success/failure message
+# Update pipeline to execute every 5 minutes
+# Ensure that if pipeline is running for more than a minute it should fail.
+
+
+# Answer
+pipeline {
+    agent any
+    parameters {
+      string defaultValue: 'World', name: 'name'
+    }
+    options {
+      timeout(1)
+      disableConcurrentBuilds()
+    }
+    
+    triggers {
+      cron 'H/5 * * * *'
+    }
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+
+        stage('World') {
+          steps {
+            echo "Hello ${params.name}"
+            // sh 'sleep 1m'
+          }
+          input {
+              message 'Want to fail the pileline'
+            }
+        }
+        stage('Print Credential') {
+            steps { 
+                script {
+                    String text
+                    withCredentials([file(credentialsId: 'secret', variable: 'FILE')]) {
+                        text = readFile(FILE)
+                    }
+                    echo "${text}"
+                }
+            }
+        }
+    }
+    post {
+      success {
+        echo "Build is success"
+        }
+      failure {
+        echo "Build is failed"
+        }
+    }
+}
+
+Ref : https://gist.github.com/briceburg/67b35e4994d1a162355171e7ba859384

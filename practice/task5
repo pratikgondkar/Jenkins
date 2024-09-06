@@ -1,0 +1,34 @@
+What you will do:
+In this lab we will create a Jenkins Scripted Pipeline for CI:
+# Create a Jenkins Scripted Pipeline that will kick start the CI process if a commit is made.
+# Add a Stage in pipeline to perform to Code stability. checkstyle, sonarQube
+# Add a Stage in pipeline to perform code quality analysis. PMD
+# Add a Stage in pipeline to perform code coverage analysis. cobertura
+# Add a Stage in pipeline to generate report for code quality & analysis. 
+Try to create pipeline for other project with as minimum code changes as possible.
+
+
+# Answer
+
+node {
+    stage('Code Checkout') {
+        git branch: 'java7', url: 'https://github.com/opstree/spring3hibernate.git'
+    }
+    stage('Code Stability') {
+        def mvnHome = tool 'maven3'
+        sh 'mvn checkstyle:checkstyle'
+        sh 'mvn findbugs:findbugs'
+    }
+    stage('Code Quality') {
+        def mvnHome = tool 'maven3'
+        sh 'mvn pmd:pmd'
+    }
+    stage('Code Coverage') {
+        def mvnHome = tool 'maven3'
+        sh 'mvn cobertura:cobertura'
+    }
+    stage('Publish  Reports') {
+        cobertura(coberturaReportFile: 'target/site/cobertura/coverage.xml')
+        recordIssues(tools: [pmdParser(), findBugs(useRankAsPriority: true), checkStyle()])
+    }
+}

@@ -1,0 +1,11 @@
+Assignment:-04
+1. Perform CI Checks On Below Apis Using Declarative Pipeline
+    (eg: clean, clone, cred scan, unit test, code coverage, dependency check etc. ).
+    {Mandatory} - Java:- https://github.com/OT-MICROSERVICES/salary-api
+    {Optional}  - GoLang:- https://github.com/OT-MICROSERVICES/employee-api
+    {Optional}  - Python:- https://github.com/OT-MICROSERVICES/attendance-api
+ 3. Should store Reports of ALL CI checks.
+ 4. Artifact should be stored locally or remote. 
+ 4. Notification should be sent email/slack/telegram.
+ Optional:- 
+    - Try Same with scripted pipeline.

@@ -1,0 +1,73 @@
+What you will do:
+In this lab we will create a Jenkins Declarative Pipeline for CI:
+# Create a Jenkins Pipeline that will kick start the CI process if a commit is made.
+# Add a Stage in pipeline to perform to Code stability. findbugs:findbugs
+# Add a Stage in pipeline to perform code quality analysis.  pmd:pmd
+# Add a Stage in pipeline to perform code coverage analysis. cobertura:cobertura
+# Add a Stage in pipeline to generate report for code quality & analysis.
+Add a Stage in pipeline to send Slack and Email notification.
+
+https://github.com/opstree/spring3hibernate.git
+java7
+
+# ANSWER
+
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven3"
+    }
+
+    stages {
+        
+        stage('Code stability') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'java7', url: 'https://github.com/opstree/spring3hibernate.git'
+                sh "mvn findbugs:findbugs"
+            }
+        }
+        
+        stage('Quality Check') {
+            steps {
+                sh "mvn pmd:pmd"
+            }
+        }
+        stage('Code Coverage') {
+            steps {
+                sh "mvn cobertura:cobertura"
+            }
+        }
+        stage('Generate Report') {
+            steps {
+                // Archive the Reports
+                archiveArtifacts artifacts: 'target/findbugs.xml', fingerprint: true
+                archiveArtifacts artifacts: 'target/pmd.xml', fingerprint: true
+                archiveArtifacts artifacts: 'target/site/cobertura/**/*', fingerprint: true
+            }
+        }
+    }
+    post {
+        always {
+                // Publish the Cobertura code coverage report to Jenkins
+                cobertura(coberturaReportFile: 'target/site/cobertura/coverage.xml')
+                recordIssues(
+                tools: [findBugs(pattern: 'target/findbugs.xml')],
+                aggregatingResults: true
+                )
+                recordIssues(
+                tools: [pmdParser(pattern: 'target/pmd.xml')],
+                aggregatingResults: true
+                )
+        }
+        success {
+            slackSend channel: '#pipeline-dec', color: 'good', message: "Job '${env.JOB_NAME}' Success!", teamDomain: 'kiran-workspacegroup', tokenCredentialId: 'df4374b7-51c5-4d43-8297-a5e1971ef969	'
+        }
+        failure {
+            // Notify on failure 'Secret text'
+            slackSend channel: '#pipeline-dec', color: 'danger', message: "Job '${env.JOB_NAME}' Failed!", teamDomain: 'kiran-workspacegroup', tokenCredentialId: 'df4374b7-51c5-4d43-8297-a5e1971ef969'
+        }
+    }
+}

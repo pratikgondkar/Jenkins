@@ -1,0 +1,7 @@
+Install the Role-Based Authorization Strategy Plugin:
+Plugin: Role-Based Authorization Strategy
+
+Configure Global Security:
+Choose "Role-Based Strategy" as the security realm.
+
+

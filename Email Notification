@@ -1,0 +1,22 @@
+Blog : https://netcorecloud.com/tutorials/install-and-configure-email-notifications-in-jenkins/
+
+Email Notification Plugin in Jenkins
+
+Email notification in Jenkins
+It allows you to receive emails about the build status, test results, or other important events related to your Jenkins jobs.
+Install the Email Notification Plugin:
+Go to "Manage Jenkins" > "Manage Plugins."
+In the "Available" tab, search for "Email Notification Plugin" and install it.
+Generation of App password
+To generate the app password you need to go to the gmail account which you want to use to send mail.
+Profile >> Manage google account >> security >> Enable 2 factor notification >> Generate App password.
+Save the generated password.
+Configure the Email Server in Jenkins:
+Go to "Manage Jenkins" > "Configure System."
+Scroll down to the "Email Notification" section.
+Configure your SMTP server settings, including the SMTP server name, SMTP port, username (your email) and password(generated above).
+Test the Configuration.
+Configure the Job to Send Email Notifications:
+Open the Jenkins job for which you want to configure email notifications.
+Click on "Configure" to edit the job settings.
+Scroll down to the "Post-build Actions" section
