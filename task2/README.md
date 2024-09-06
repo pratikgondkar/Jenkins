@@ -186,8 +186,3 @@ For Example shown below :
 ![image](https://github.com/Kiran-dehlikar/test/assets/104997588/238ed719-e1dd-4ebf-86cc-79b2927bfe61)
 
 ![image](https://github.com/Kiran-dehlikar/test/assets/104997588/446c78d2-3755-426e-ab13-f7af2f4cd2d7)
-
-
-## Authors
-
-- [Kiran Dehlikar](https://github.com/Kiran-dehlikar)
