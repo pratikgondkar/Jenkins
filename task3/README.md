@@ -108,8 +108,3 @@ Now,Implement a DSL job to automate the entire process for CI checks on all APIs
 
 ## Create Job for report generation
 ![image](https://github.com/Kiran-dehlikar/test/assets/104997588/cdf97e6b-4cf8-487c-a676-f6588ecc8572)
-
-
-## Authors
-
-- [Kiran Dehlikar](https://github.com/Kiran-dehlikar)
